@@ -281,7 +281,7 @@ ofl_msg_pack_flow_rate_mod(struct ofl_msg_flow_rate_mod *msg, uint8_t **buf, siz
     struct ofp_flow_rate_mod *flow_mod;
     uint8_t *ptr;
 
-    *buf_len = ROUND_UP(sizeof(struct ofp_flow_rate_mod)- 4 + msg->match->length,8);
+    *buf_len = ROUND_UP(sizeof(struct ofp_flow_rate_mod) + msg->match->length,8);  //- 4 - 8
 
     *buf     = (uint8_t *)malloc(*buf_len);
     flow_mod = (struct ofp_flow_rate_mod *)(*buf);
@@ -291,10 +291,11 @@ ofl_msg_pack_flow_rate_mod(struct ofl_msg_flow_rate_mod *msg, uint8_t **buf, siz
     memset(flow_mod->pad, 0x00, 3);
     flow_mod->rate         = htonl( msg->rate);
 
-    ptr  = (*buf) + sizeof(struct ofp_flow_rate_mod)- 4;
+    flow_mod->bound        = htonl( msg->bound); //***********
+    ptr  = (*buf) + sizeof(struct ofp_flow_rate_mod)- 4;  //-4  - 8
     ofl_structs_match_pack(msg->match, &(flow_mod->match), ptr, exp);
     /* We advance counting the padded bytes */
-    ptr = (*buf) + ROUND_UP(sizeof(struct ofp_flow_rate_mod)- 4 + msg->match->length,8);
+    ptr = (*buf) + ROUND_UP(sizeof(struct ofp_flow_rate_mod) + msg->match->length,8);  //- 4 - 8
 
     return 0;
 }

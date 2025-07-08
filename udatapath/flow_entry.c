@@ -393,8 +393,14 @@ flow_entry_create(struct datapath *dp, struct flow_table *table, struct ofl_msg_
     list_init(&entry->meter_refs);
     init_meter_refs(entry);
 
+    entry->stats->last_sample = now;  //Dispensable, maybe need to be modified
     entry->stats->rate = 0;
+    entry->stats->bound = 1; ///// 0 UINT16_MAX
     entry->stats->sampling_packet_count = 0;
+
+    entry->stats->tokens = 1; ///// 0
+    entry->stats->last_refill = now;  /////
+
 
     return entry;
 }

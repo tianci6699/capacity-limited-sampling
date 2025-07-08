@@ -218,6 +218,11 @@ flow_table_flow_rate_mod(struct flow_table *table, struct ofl_msg_flow_rate_mod 
 
         if (flow_entry_matches_for_rate_mod(entry, mod, strict)) {
             entry->stats->rate = mod->rate;
+            entry->stats->bound = mod->bound; ////////
+	    entry->stats->sampling_packet_count = 0; //*******************
+    	    entry->stats->tokens = 1; ///// 0
+    	    //entry->stats->last_refill = 0;  ///now
+
         }
     }
 

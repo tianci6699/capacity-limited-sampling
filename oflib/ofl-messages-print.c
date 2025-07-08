@@ -185,6 +185,9 @@ ofl_msg_print_flow_rate_mod(struct ofl_msg_flow_rate_mod *msg, FILE *stream, str
                   msg->cookie, msg->cookie_mask);
     fprintf(stream, "\", rate=\"");
     ofl_port_print(stream, msg->rate);
+
+    fprintf(stream, "\", bound=\"");
+    ofl_port_print(stream, msg->bound); //*************
     fprintf(stream, "\", match=");
     ofl_structs_match_print(stream, msg->match, exp);
     fprintf(stream, "}");

@@ -665,6 +665,7 @@ flow_rate_mod(struct vconn *vconn, int argc, char *argv[]) {
              .cookie_mask = 0x0000000000000000ULL,
              .table_id = 0xff,
              .rate = 0,
+	     .bound = 1, //*********** UINT32_MAX
              .match = NULL};
 
     parse_flow_rate_mod_args(argv[0], &msg);
@@ -2284,6 +2285,14 @@ parse_flow_rate_mod_args(char *str, struct ofl_msg_flow_rate_mod *req) {
         if (strncmp(token, FLOW_RATE_MOD_RATE KEY_VAL, strlen(FLOW_RATE_MOD_RATE KEY_VAL)) == 0) {
             if (sscanf(token, FLOW_RATE_MOD_RATE KEY_VAL "%"SCNu32"", &(req->rate)) != 1) {
                 ofp_fatal(0, "Error parsing %s: %s.", FLOW_RATE_MOD_RATE, token);
+            }
+            continue;
+        }
+
+	// parse bound**************
+        if (strncmp(token, FLOW_RATE_MOD_BOUND KEY_VAL, strlen(FLOW_RATE_MOD_BOUND KEY_VAL)) == 0) {
+            if (sscanf(token, FLOW_RATE_MOD_BOUND KEY_VAL "%"SCNu32"", &(req->bound)) != 1) {
+                ofp_fatal(0, "Error parsing %s: %s.", FLOW_RATE_MOD_BOUND, token);
             }
             continue;
         }

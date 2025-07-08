@@ -51,6 +51,7 @@
 #include "hash.h"
 #include "oflib/oxm-match.h"
 #include "vlog.h"
+#include "timeval.h" ////
 
 
 #define LOG_MODULE VLM_pipeline
@@ -213,16 +214,61 @@ void apply_packet_sampler(struct packet *pkt, struct flow_entry *entry){
     struct packet* newpkt;
     size_t packetSize;
     bool shouldSample = false;
+    uint64_t now;
+    uint32_t time_window_ms;
+    uint64_t elapsed_time;
+    uint32_t elapsed_windows;
+
+
+    now = time_msec();
+    time_window_ms = (entry->stats->bound == 0) ? 1 : 1000 / entry->stats->bound; //
+    //time_window_ms = 1000 / entry->stats->bound;
 
     if(pkt->handle_std->proto->tcp){
         //VLOG_DBG(LOG_MODULE, "##### Encapsulating packet..");
 
         if(PER_FLOW_MOD){
+
+	    //if (entry->stats->last_refill == 0) {  
+        	//entry->stats->last_refill = now;  
+    	    //}
+
             entry->stats->sampling_packet_count++;
-            if(entry->stats->rate && entry->stats->sampling_packet_count % entry->stats->rate == 0){
+            //if(entry->stats->rate && entry->stats->sampling_packet_count % entry->stats->rate == 0 && entry->stats->sampling_packet_count % entry->stats->rate == 0 ){
+	    //&& entry->stats->sampling_packet_count <= entry->stats->rate * entry->stats->bound
+	    //&& (entry->stats->sampling_packet_count / entry->stats->rate) < entry->stats->bound
+	    //now - entry->stats->last_sample >= (1000.0 / entry->stats->bound)
+
+	    elapsed_time = now - entry->stats->last_refill; 
+    	    elapsed_windows = elapsed_time / time_window_ms; 
+
+    	    if (elapsed_windows > 0) {
+
+		if (elapsed_windows > 1) { //3
+        	    elapsed_windows = 1;   
+    		}
+
+        	//entry->stats->tokens += elapsed_windows;  
+        	//if (entry->stats->tokens > 2) {  
+            	//    entry->stats->tokens = 2; 
+        	//}
+
+		entry->stats->tokens = entry->stats->tokens + elapsed_windows;
+		//entry->stats->tokens = (entry->stats->tokens + elapsed_windows > 2) ? 2 : entry->stats->tokens + elapsed_windows;
+        	entry->stats->last_refill = now;  //+= elapsed_windows * time_window_ms
+    	    }
+
+
+	    if(entry->stats->rate 
+    	    && entry->stats->sampling_packet_count % entry->stats->rate == 0
+    	    && entry->stats->tokens > 0){
+
                 shouldSample = true;
+	        entry->stats->last_sample = now;
+		entry->stats->tokens--; 
             }
-        }else{
+        }
+	else{
             periodic_packet_count++;
             if(periodic_rate && periodic_packet_count % periodic_rate == 0){
                 shouldSample = true;
@@ -231,6 +277,7 @@ void apply_packet_sampler(struct packet *pkt, struct flow_entry *entry){
 
         if(shouldSample){
             packetSize = pkt->buffer->size;
+	    
             if(packetSize > 1400){
                 packetSize = 1400;
             }

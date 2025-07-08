@@ -528,7 +528,8 @@ ofl_msg_unpack_flow_rate_mod(struct ofp_header *src,uint8_t* buf, size_t *len, s
     dm->table_id =            sm->table_id;
     dm->rate =         ntohl( sm->rate);
 
-    match_pos = sizeof(struct ofp_flow_rate_mod) - 4;
+    dm->bound =        ntohl(sm->bound);  // *********Assuming 'bound' is a 32-bit value, adjust accordingly if needed
+    match_pos = sizeof(struct ofp_flow_rate_mod) - 8;  //- 4
     error = ofl_structs_match_unpack(&(sm->match), buf + match_pos, len, &(dm->match), exp);
     if (error) {
         free(dm);

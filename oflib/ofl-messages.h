@@ -222,6 +222,7 @@ struct ofl_msg_flow_rate_mod {
                                                    of 0 indicates no restriction. */
     uint8_t                         table_id;     /* ID of the table to put the flow in */
     uint32_t                        rate;
+    uint32_t                        bound;	/////////
     struct ofl_match_header        *match;        /* Fields to match */
 };
 

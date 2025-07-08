@@ -540,6 +540,7 @@ ofl_structs_flow_stats_pack(struct ofl_flow_stats *src, uint8_t *dst, struct ofl
     flow_stats->duration_nsec = htonl(src->duration_nsec);
     flow_stats->priority = htons(src->priority);
     flow_stats->rate = htons(src->rate);
+    flow_stats->bound = htons(src->bound);  ////////
     flow_stats->sampling_packet_count = hton64(src->sampling_packet_count);
     flow_stats->idle_timeout = htons(src->idle_timeout);
     flow_stats->hard_timeout = htons(src->hard_timeout);

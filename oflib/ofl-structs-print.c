@@ -548,11 +548,11 @@ ofl_structs_flow_stats_print(FILE *stream, struct ofl_flow_stats *s, struct ofl_
     fprintf(stream, "{table=\"");
     ofl_table_print(stream, s->table_id);
     fprintf(stream, "\", match=\"");
-    ofl_structs_match_print(stream, s->match, exp);
-    fprintf(stream, "\", dur_s=\"%u\", dur_ns=\"%u\", prio=\"%u\", rate=\"%u\", smpl_pck_cnt=\"%"PRIu64"\", "
+    ofl_structs_match_print(stream, s->match, exp); //////////
+    fprintf(stream, "\", dur_s=\"%u\", dur_ns=\"%u\", prio=\"%u\", rate=\"%u\", bound=\"%u\", smpl_pck_cnt=\"%"PRIu64"\", "
                           "idle_to=\"%u\", hard_to=\"%u\", cookie=\"0x%"PRIx64"\", "
                           "pkt_cnt=\"%"PRIu64"\", byte_cnt=\"%"PRIu64"\", insts=[",
-                  s->duration_sec, s->duration_nsec, s->priority, s->rate, s->sampling_packet_count,
+                  s->duration_sec, s->duration_nsec, s->priority, s->rate, s->bound, s->sampling_packet_count,
                   s->idle_timeout, s->hard_timeout, s->cookie,
                   s->packet_count, s->byte_count);
 

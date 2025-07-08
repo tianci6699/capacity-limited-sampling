@@ -1213,9 +1213,10 @@ struct ofp_flow_rate_mod {
                                      flows from all tables. */
     uint8_t pad[3];
     uint32_t rate;
+    uint32_t bound;  //*************
     struct ofp_match match;       /* Fields to match. Variable size. */
 };
-OFP_ASSERT(sizeof(struct ofp_flow_rate_mod) == 40);
+OFP_ASSERT(sizeof(struct ofp_flow_rate_mod) == 48);//44*************
 
 
 /* Group numbering. Groups can use any number up to OFPG_MAX. */
@@ -1865,12 +1866,14 @@ struct ofp_flow_stats {
     uint64_t packet_count;    /* Number of packets in flow. */
     uint64_t byte_count;      /* Number of bytes in flow. */
     uint64_t rate;            /* Sampling rate */
+
+    uint64_t bound;            /* ///////////// */
     uint64_t sampling_packet_count; /* Sampling packet count */
     struct ofp_match match;   /* Description of fields. Variable size. */
     /* The variable size and padded match is always followed by instructions. */
     //struct ofp_instruction instructions[0]; /* Instruction set - 0 or more. */
 };
-OFP_ASSERT(sizeof(struct ofp_flow_stats) == 72);
+OFP_ASSERT(sizeof(struct ofp_flow_stats) == 80);
 
 /* Body for ofp_multipart_request of type OFPMP_AGGREGATE. */
 struct ofp_aggregate_stats_request {

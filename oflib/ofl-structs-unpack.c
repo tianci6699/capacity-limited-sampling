@@ -520,6 +520,7 @@ ofl_structs_flow_stats_unpack(struct ofp_flow_stats *src, uint8_t *buf, size_t *
     s->duration_nsec = ntohl( src->duration_nsec);
     s->priority =      ntohs( src->priority);
     s->rate =      ntohs( src->rate);
+    s->bound =     ntohs( src->bound); //////////
     s->sampling_packet_count =      ntoh64( src->sampling_packet_count);
     s->idle_timeout =  ntohs( src->idle_timeout);
     s->hard_timeout =  ntohs( src->hard_timeout);

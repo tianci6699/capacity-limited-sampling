@@ -162,8 +162,14 @@ struct ofl_flow_stats {
     size_t                          instructions_num;
     struct ofl_instruction_header **instructions; /* Instruction set. */
 
+    uint64_t                 	    last_sample;   //Dispensable, the time that sampled newest packet
     uint16_t                        rate;
+    uint16_t                        bound;	  //////
     uint64_t                        sampling_packet_count;
+
+    uint16_t 			    tokens;        // ///// The number of currently available tokens
+    uint64_t 			    last_refill;   // ///// Last token replenishment time/Time when the time window started
+
 };
 
 

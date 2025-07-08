@@ -172,6 +172,7 @@ static struct names16 band_names[] = {
 
 #define FLOW_RATE_MOD_TABLE_ID        "table"
 #define FLOW_RATE_MOD_RATE            "rate"
+#define FLOW_RATE_MOD_BOUND            "bound"  //***********
 #define FLOW_RATE_MOD_COOKIE          "cookie"
 #define FLOW_RATE_MOD_COOKIE_MASK     "cookie_mask"
 #define FLOW_RATE_MOD_MATCH           "match"
