@@ -9,13 +9,13 @@ To use it, you should firstly install our sampling switch, which is based on Ope
 
 The switch makes use of the NetBee library to parse packets, you need to install it firstly.
 
-### 1.1 Install the following packages:
+### 1.1 Install the following packages.
 
 ```bash
 $ sudo apt-get install cmake libpcap-dev libxerces-c-dev libpcre3 libpcre3-dev flex bison pkg-config autoconf libtool libboost-dev
 ```
 
-### 1.2 Clone and build netbee
+### 1.2 Clone and build netbee.
 
 ```bash
 $ git clone https://github.com/netgroup-polito/netbee.git
@@ -24,7 +24,7 @@ $ cmake .
 $ make
 ```
 
-### 1.3 Add the shared libraries
+### 1.3 Add the shared libraries.
 
 ```bash
 $ sudo cp ../bin/libn*.so /usr/local/lib
@@ -32,7 +32,7 @@ $ sudo ldconfig
 $ sudo cp -R ../include/* /usr/include/
 ```
 
-## 2 Clone and build ofsoftswitch13
+## 2 Clone and build sampling switch.
 
 ```bash
 $ git clone https://github.com/tiancicheng/capacity-limited-sampling.git
